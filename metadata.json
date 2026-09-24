@@ -1,0 +1,6 @@
+{
+  "name": "CineStream - Film Explorer & Streaming Hub",
+  "description": "Discover, explore, and stream films, anime, and movies with instant search, quality tags, ratings, and comprehensive movie details.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
