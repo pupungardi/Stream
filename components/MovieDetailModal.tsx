@@ -63,8 +63,10 @@ export function MovieDetailModal({
 
   if (!film) return null;
 
-  const posterUrl = detailData?.posterUrl || film.tmdbPoster || film.poster;
-  const backdropUrl = detailData?.backdropUrl || film.backdrop || '/images/hero_cinema_backdrop_1790254485276.jpg';
+  const isDeadPoster = film.poster?.includes('showcdnx.com') || film.poster?.includes('lk21official.cc');
+  const posterUrl = detailData?.posterUrl || film.tmdbPoster || (!isDeadPoster && film.poster?.startsWith('http') ? film.poster : undefined);
+  const isDeadBackdrop = film.backdrop?.includes('showcdnx.com') || film.backdrop?.includes('lk21official.cc');
+  const backdropUrl = detailData?.backdropUrl || (!isDeadBackdrop && film.backdrop?.startsWith('http') ? film.backdrop : undefined) || '/images/hero_cinema_backdrop_1790257700207.jpg';
   const overview = detailData?.overview || film.overview || 'Comprehensive film details loaded directly from the LK21 movie catalog. Select a streaming server to begin playback or view official distributor information.';
   const genres = detailData?.genres || film.genres || ['Action', 'Drama', 'Featured'];
 

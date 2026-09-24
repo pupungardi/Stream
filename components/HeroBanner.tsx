@@ -29,7 +29,7 @@ export function HeroBanner({
       {/* Background visual container with measured contrast scrim */}
       <div className="absolute inset-0 z-0 opacity-40">
         <Image
-          src="/images/hero_cinema_backdrop_1790254485276.jpg"
+          src="/images/hero_cinema_backdrop_1790257700207.jpg"
           alt="Cinematic theater backdrop"
           fill
           className="object-cover object-center"
@@ -131,7 +131,7 @@ export function HeroBanner({
           <div className="lg:col-span-5 hidden lg:block">
             <div className="relative aspect-[16/10] rounded-2xl overflow-hidden border border-white/15 shadow-2xl shadow-black/80 group">
               <Image
-                src="/images/featured_spotlight_banner_1790254498245.jpg"
+                src="/images/featured_spotlight_banner_1790257712127.jpg"
                 alt="Spotlight fantasy film illustration"
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-500"

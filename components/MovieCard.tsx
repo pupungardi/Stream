@@ -19,7 +19,11 @@ export function MovieCard({
   onToggleWatchlist,
 }: MovieCardProps) {
   const [imageError, setImageError] = useState(false);
-  const posterSrc = film.tmdbPoster || film.poster;
+  
+  // Check if poster URL is known to be dead host
+  const rawPoster = film.tmdbPoster || film.poster || '';
+  const isDeadHost = rawPoster.includes('showcdnx.com') || rawPoster.includes('lk21official.cc');
+  const validPoster = !isDeadHost && rawPoster.startsWith('http') ? rawPoster : (film.tmdbPoster || null);
 
   // Format runtime nicely if "01:34" -> "1h 34m"
   const formattedRuntime = React.useMemo(() => {
@@ -41,9 +45,9 @@ export function MovieCard({
         onClick={() => onSelect(film)}
         className="relative aspect-[2/3] w-full overflow-hidden bg-zinc-950 cursor-pointer"
       >
-        {posterSrc && !imageError ? (
+        {validPoster && !imageError ? (
           <Image
-            src={posterSrc}
+            src={validPoster}
             alt={film.title}
             fill
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
@@ -53,21 +57,25 @@ export function MovieCard({
           />
         ) : (
           /* Styled Fallback Container when remote poster image is unavailable */
-          <div className="absolute inset-0 flex flex-col items-center justify-between p-4 bg-gradient-to-br from-zinc-900 via-zinc-950 to-black text-center border-b border-white/5">
-            <div className="w-full flex justify-between items-center text-[11px] text-zinc-500 font-mono">
-              <span>{film.year || 'CINEMA'}</span>
-              <span className="text-red-400 font-semibold">{film.quality}</span>
+          <div className="absolute inset-0 flex flex-col items-center justify-between p-4 bg-gradient-to-b from-zinc-900 via-[#12141D] to-black text-center border-b border-white/5">
+            <div className="w-full flex justify-between items-center text-[11px] text-zinc-400 font-mono">
+              <span>{film.year || 'FEATURE'}</span>
+              <span className="text-red-400 font-semibold">{film.quality || 'HD'}</span>
             </div>
-            <div className="space-y-2">
-              <div className="mx-auto w-12 h-12 rounded-full bg-red-600/10 border border-red-500/20 flex items-center justify-center">
+            <div className="space-y-3 px-1 my-auto">
+              <div className="mx-auto w-12 h-12 rounded-2xl bg-gradient-to-br from-red-600/20 to-red-950/40 border border-red-500/30 flex items-center justify-center shadow-lg shadow-red-950/50">
                 <Film className="h-6 w-6 text-red-500" />
               </div>
-              <h4 className="text-xs font-bold text-zinc-200 line-clamp-3 px-1 leading-snug">
+              <h4 className="text-xs font-bold text-zinc-100 line-clamp-3 leading-snug tracking-tight">
                 {film.title}
               </h4>
+              <div className="text-[10px] text-zinc-400 uppercase tracking-widest">
+                Cinema Premiere
+              </div>
             </div>
-            <div className="text-[10px] text-zinc-500 tracking-wider">
-              {formattedRuntime || 'Full Feature'}
+            <div className="w-full pt-2 border-t border-white/5 flex items-center justify-between text-[10px] text-zinc-400">
+              <span>{formattedRuntime || 'Feature Film'}</span>
+              {film.rating > 0 && <span className="text-amber-400 font-semibold">★ {film.rating}</span>}
             </div>
           </div>
         )}
